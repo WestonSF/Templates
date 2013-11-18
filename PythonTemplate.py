@@ -84,7 +84,7 @@ def loggingFunction(logFile,result,info):
     if result == "error":
         with open(logFile, "a") as f:
             f.write("\n" + "Process ended at " + currentDateTime + "\n")
-            f.write("There was an error: " + info + "\n")        
+            f.write("Error: " + info + "\n")        
             f.write("---" + "\n")
         # Send an email
         if sendEmail == "true":
