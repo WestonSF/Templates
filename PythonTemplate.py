@@ -44,17 +44,21 @@ def mainFunction(*argv): # Get parameters from ArcGIS Desktop tool by seperating
             # Return the output if there is any
             if output:
                 return output      
-        # Log start
+        # Log end
         if logInfo == "true":
             loggingFunction(logFile,"end","")        
         pass
     # If arcpy error
     except arcpy.ExecuteError:
+        # Show the message
+        arcpy.AddMessage(arcpy.GetMessages(2))        
         # Log error
         if logInfo == "true":  
             loggingFunction(logFile,"error",arcpy.GetMessages(2))
     # If python error
     except Exception as e:
+        # Show the message
+        arcpy.AddMessage(e.args[0])          
         # Log error
         if logInfo == "true":         
             loggingFunction(logFile,"error",e.args[0])
@@ -62,9 +66,6 @@ def mainFunction(*argv): # Get parameters from ArcGIS Desktop tool by seperating
 
 # Start of logging function
 def loggingFunction(logFile,result,info):
-    # Show the message
-    arcpy.AddMessage(info)
-    
     #Get the time/date
     setDateTime = datetime.datetime.now()
     currentDateTime = setDateTime.strftime("%d/%m/%Y - %H:%M:%S")
@@ -76,7 +77,10 @@ def loggingFunction(logFile,result,info):
     if result == "end":
         with open(logFile, "a") as f:
             f.write("\n" + "Process ended at " + currentDateTime + "\n")
-            f.write("---" + "\n")        
+            f.write("---" + "\n")
+    if result == "warning":
+        with open(logFile, "a") as f:
+            f.write("\n" + "Warning: " + info)               
     if result == "error":
         with open(logFile, "a") as f:
             f.write("\n" + "Process ended at " + currentDateTime + "\n")
