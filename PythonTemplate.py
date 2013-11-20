@@ -20,7 +20,12 @@ arcpy.env.overwriteOutput = True
 # Set variables
 logInfo = "false"
 logFile = r""
-sendEmail = "false"
+sendEmail = "true"
+emailTo = ""
+emailUser = ""
+emailPassword = ""
+emailSubject = ""
+emailMessage = ""
 output = None
 
 # Start of main function
@@ -89,23 +94,18 @@ def loggingFunction(logFile,result,info):
         # Send an email
         if sendEmail == "true":
             arcpy.AddMessage("Sending email...")
-            # Receiver email address
-            to = ''
-            # Sender email address and password
-            gmail_user = ''
-            gmail_pwd = ''
             # Server and port information
             smtpserver = smtplib.SMTP("smtp.gmail.com",587) 
             smtpserver.ehlo()
             smtpserver.starttls() 
             smtpserver.ehlo
-            # Login
-            smtpserver.login(gmail_user, gmail_pwd)
+            # Login with sender email address and password
+            smtpserver.login(emailUser, emailPassword)
             # Email content
-            header = 'To:' + to + '\n' + 'From: ' + gmail_user + '\n' + 'Subject:Error \n'
-            msg = header + '\n' + '' + '\n' + '\n' + info
+            header = 'To:' + emailTo + '\n' + 'From: ' + emailUser + '\n' + 'Subject:' + emailSubject + '\n'
+            message = header + '\n' + emailMessage + '\n' + '\n' + info
             # Send the email and close the connection
-            smtpserver.sendmail(gmail_user, to, msg)
+            smtpserver.sendmail(emailUser, emailTo, message)
             smtpserver.close()                
 # End of logging function    
 
