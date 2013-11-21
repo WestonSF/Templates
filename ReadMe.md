@@ -1,38 +1,29 @@
-#GitHub ReadMe Template
+#Development Templates
 
----Short description of the project---
+These a few templates that I like to use for development and for documentation.
 
-[View it live](http://alaframboise.github.com/rockstar-repo-template/index.html)
-
-![App](https://raw.github.com/alaframboise/rockstar-repo-template/master/app.png)
 
 ## Features
-* feature 1
-* feature 2
+* Git Hub ReadMe template
+* Python for ArcGIS template
+
 
 ## Instructions
 
 1. Fork and then clone the repo or download the .zip file. 
-2. Run and try the examples.
+2. Copy and use the templates for starting development and/or documentation.
 
-## Requirements
-
-* Notepad or your favorite HTML editor
-* Web browser with access to the Internet
 
 ## Resources
 
-* [ArcGIS for JavaScript API Resource Center](http://help.arcgis.com/en/webapi/javascript/arcgis/index.html)
-* [ArcGIS Blog](http://blogs.esri.com/esri/arcgis/)
-* [twitter@esri](http://twitter.com/esri)
+* [Blog](http://westonelli.wordpress.com)
+* [Twitter](https://twitter.com/Westonelli)
 
-## Issues
-
-Find a bug or want to request a new feature?  Please let me know by submitting an issue.
 
 ## Contributing
 
 Anyone and everyone is welcome to contribute. 
+
 
 ## Licensing
 Copyright 2013 Shaun Weston
@@ -48,7 +39,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-A copy of the license is available in the repository's [license.txt]( https://raw.github.com/alaframboise/rockstar-repo-template/master/license.txt) file.
-
-[](This is how you hide something in your README.md)

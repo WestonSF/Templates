@@ -48,7 +48,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-A copy of the license is available in the repository's [license.txt]( https://raw.github.com/alaframboise/rockstar-repo-template/master/license.txt) file.
-
-[](This is how you hide something in your README.md)

@@ -1,10 +1,10 @@
 #-------------------------------------------------------------
 # Name:       #
 # Purpose:    #         
-# Author:     Shaun Weston (shaun.weston@splicegroup.co.nz)
+# Author:     Shaun Weston (shaun_weston@eagle.co.nz)
 # Date Created:    01/01/2013
 # Last Updated:    01/01/2013
-# Copyright:   (c) Splice Group
+# Copyright:   (c) Eagle Technology
 # ArcGIS Version:   10.1/10.2
 # Python Version:   2.7
 #--------------------------------
