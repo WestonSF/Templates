@@ -1,6 +1,6 @@
 #Development Templates
 
-These a few templates that I like to use for development and for documentation.
+These are a few templates that I like to use for development and for documentation.
 
 
 ## Features
@@ -16,9 +16,11 @@ These a few templates that I like to use for development and for documentation.
 
 ## Resources
 
-* [Blog](http://westonelli.wordpress.com)
+* [LinkedIn](http://www.linkedin.com/in/sfweston)
+* [GitHub](https://github.com/WestonSF)
 * [Twitter](https://twitter.com/Westonelli)
-
+* [Blog](http://westonelli.wordpress.com)
+* [ArcGIS Blog](http://blogs.esri.com/esri/arcgis)
 
 ## Contributing
 

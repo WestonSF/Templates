@@ -3,5 +3,3 @@ c:\python27\arcgis10.2\python "C:\Development\Development Templates\PythonTempla
  "C:\Downloads\New File Geodatabase.gdb\WairarapaWards" ^
  "C:\Downloads\New File Geodatabase.gdb\WairarapaWards\Output" ^
  "40"
-
-pause

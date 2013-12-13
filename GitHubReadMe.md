@@ -2,37 +2,49 @@
 
 ---Short description of the project---
 
-[View it live](http://alaframboise.github.com/rockstar-repo-template/index.html)
+[Demo](http://alaframboise.github.com/rockstar-repo-template/index.html)
 
 ![App](https://raw.github.com/alaframboise/rockstar-repo-template/master/app.png)
 
+
 ## Features
-* feature 1
-* feature 2
+
+* Feature 1
+* Feature 2
+
 
 ## Instructions
 
 1. Fork and then clone the repo or download the .zip file. 
 2. Run and try the examples.
 
+
 ## Requirements
 
 * Notepad or your favorite HTML editor
 * Web browser with access to the Internet
 
+
 ## Resources
 
-* [ArcGIS for JavaScript API Resource Center](http://help.arcgis.com/en/webapi/javascript/arcgis/index.html)
-* [ArcGIS Blog](http://blogs.esri.com/esri/arcgis/)
-* [twitter@esri](http://twitter.com/esri)
+* [LinkedIn](http://www.linkedin.com/in/sfweston)
+* [GitHub](https://github.com/WestonSF)
+* [Twitter](https://twitter.com/Westonelli)
+* [Blog](http://westonelli.wordpress.com)
+* [ArcGIS Blog](http://blogs.esri.com/esri/arcgis)
+* [ArcGIS API for Javascript](https://developers.arcgis.com/en/javascript)
+* [Python for ArcGIS](http://resources.arcgis.com/en/communities/python)
+
 
 ## Issues
 
 Find a bug or want to request a new feature?  Please let us know by submitting an issue.
 
+
 ## Contributing
 
 Anyone and everyone is welcome to contribute. 
+
 
 ## Licensing
 Copyright 2013 Shaun Weston
