@@ -5,7 +5,7 @@
 # Date Created:    01/01/2013
 # Last Updated:    01/01/2013
 # Copyright:   (c) Eagle Technology
-# ArcGIS Version:   10.1/10.2
+# ArcGIS Version:   10.1+
 # Python Version:   2.7
 #--------------------------------
 
@@ -23,7 +23,7 @@ logFile = r"C:\Development\Development Templates\PythonTemplateExample.log"
 sendEmail = "true"
 emailTo = "shaun_weston@eagle.co.nz"
 emailUser = "mdcgisserver@gmail.com"
-emailPassword = "Spl1ceGroup"
+emailPassword = "*****"
 emailSubject = "GIS Error"
 emailMessage = "There was an error..."
 output = None

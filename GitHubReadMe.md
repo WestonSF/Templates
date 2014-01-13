@@ -13,16 +13,16 @@
 * Feature 2
 
 
-## Instructions
-
-1. Fork and then clone the repo or download the .zip file. 
-2. Run and try the examples.
-
-
 ## Requirements
 
 * Notepad or your favorite HTML editor
 * Web browser with access to the Internet
+
+
+## Instructions
+
+1. Fork and then clone the repo or download the .zip file. 
+2. Run and try the examples.
 
 
 ## Resources
@@ -47,7 +47,7 @@ Anyone and everyone is welcome to contribute.
 
 
 ## Licensing
-Copyright 2013 Shaun Weston
+Copyright 2014 - Shaun Weston
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
