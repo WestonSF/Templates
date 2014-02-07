@@ -12,12 +12,7 @@ These are a few templates that I like to use for development and for documentati
 
 * Fork and then clone the repo or download the .zip file. 
 * Copy and use the templates for starting development and/or documentation.
-
-* Setup a script to run as a scheduled task
-	* Fork and then clone the repository or download the .zip file. 
-	* Edit the [batch file](/Examples) to be automated and change the parameters to suit your environment.
-	* Open Windows Task Scheduler and setup a new basic task.
-	* Set the task to execute the batch file at a specified time.
+* Example python script and batch file available [here](/Examples).
 
 
 ## Resources
