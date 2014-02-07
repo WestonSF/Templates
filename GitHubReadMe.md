@@ -19,10 +19,10 @@
 * Web browser with access to the Internet
 
 
-## Instructions
+## Installation Instructions
 
-1. Fork and then clone the repo or download the .zip file. 
-2. Run and try the examples.
+* Fork and then clone the repo or download the .zip file. 
+* Run and try the examples.
 
 
 ## Resources

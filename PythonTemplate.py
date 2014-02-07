@@ -2,8 +2,8 @@
 # Name:       #
 # Purpose:    #         
 # Author:     Shaun Weston (shaun_weston@eagle.co.nz)
-# Date Created:    01/01/2013
-# Last Updated:    01/01/2013
+# Date Created:    01/01/2014
+# Last Updated:    01/01/2014
 # Copyright:   (c) Eagle Technology
 # ArcGIS Version:   10.1+
 # Python Version:   2.7
@@ -20,7 +20,7 @@ arcpy.env.overwriteOutput = True
 # Set variables
 logInfo = "false"
 logFile = r""
-sendEmail = "true"
+sendEmail = "false"
 emailTo = ""
 emailUser = ""
 emailPassword = ""
@@ -56,14 +56,14 @@ def mainFunction(*argv): # Get parameters from ArcGIS Desktop tool by seperating
     # If arcpy error
     except arcpy.ExecuteError:
         # Show the message
-        arcpy.AddMessage(arcpy.GetMessages(2))        
+        arcpy.AddError(arcpy.GetMessages(2))        
         # Log error
         if logInfo == "true":  
             loggingFunction(logFile,"error",arcpy.GetMessages(2))
     # If python error
     except Exception as e:
         # Show the message
-        arcpy.AddMessage(e.args[0])          
+        arcpy.AddError(e.args[0])          
         # Log error
         if logInfo == "true":         
             loggingFunction(logFile,"error",e.args[0])
@@ -89,7 +89,7 @@ def loggingFunction(logFile,result,info):
     if result == "error":
         with open(logFile, "a") as f:
             f.write("\n" + "Process ended at " + currentDateTime + "\n")
-            f.write("Error: " + info + "\n")        
+            f.write("Error: " + str(info) + "\n")        
             f.write("---" + "\n")
         # Send an email
         if sendEmail == "true":
