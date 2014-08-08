@@ -84,9 +84,9 @@ def mainFunction(*argv): # Get parameters from ArcGIS Desktop tool by seperating
         # Build and show the error message
         for i in range(len(e.args)):
             if (i == 0):
-                errorMessage = e.args[i]
+                errorMessage = unicode(e.args[i]).encode('utf-8')
             else:
-                errorMessage = errorMessage + " " + e.args[i]
+                errorMessage = errorMessage + " " + unicode(e.args[i]).encode('utf-8')
         arcpy.AddError(errorMessage)              
         # Logging
         if (enableLogging == "true"):
