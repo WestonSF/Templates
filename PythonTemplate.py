@@ -2,11 +2,11 @@
 # Name:       #
 # Purpose:    #         
 # Author:     Shaun Weston (shaun_weston@eagle.co.nz)
-# Date Created:    01/01/2014
-# Last Updated:    01/01/2014
+# Date Created:    01/01/2015
+# Last Updated:    01/01/2015
 # Copyright:   (c) Eagle Technology
-# ArcGIS Version:   10.1+
-# Python Version:   2.7
+# ArcGIS Version:   ArcGIS for Desktop 10.1+ or ArcGIS Pro 1.1+
+# Python Version:   2.7 or 3.4
 #--------------------------------
 
 # Import modules
@@ -55,10 +55,10 @@ def mainFunction(*argv): # Get parameters from ArcGIS Desktop tool by seperating
         if (enableLogging == "true"):
             # Log end of process
             logger.info("Process ended.")
-            # Remove file handler and close log file            
-            logging.FileHandler.close(logMessage)
-            logger.removeHandler(logMessage)
-        pass
+            # Remove file handler and close log file        
+            logMessage.flush()
+            logMessage.close()
+            logger.handlers = []   
     # If arcpy error
     except arcpy.ExecuteError:           
         # Build and show the error message
@@ -70,9 +70,10 @@ def mainFunction(*argv): # Get parameters from ArcGIS Desktop tool by seperating
             logger.error(errorMessage)
             # Log end of process
             logger.info("Process ended.")            
-            # Remove file handler and close log file
-            logging.FileHandler.close(logMessage)
-            logger.removeHandler(logMessage)
+            # Remove file handler and close log file        
+            logMessage.flush()
+            logMessage.close()
+            logger.handlers = []   
         if (sendErrorEmail == "true"):
             # Send email
             sendEmail(errorMessage)
@@ -92,9 +93,10 @@ def mainFunction(*argv): # Get parameters from ArcGIS Desktop tool by seperating
             logger.error(errorMessage)
             # Log end of process
             logger.info("Process ended.")            
-            # Remove file handler and close log file
-            logging.FileHandler.close(logMessage)
-            logger.removeHandler(logMessage)
+            # Remove file handler and close log file        
+            logMessage.flush()
+            logMessage.close()
+            logger.handlers = []   
         if (sendErrorEmail == "true"):
             # Send email
             sendEmail(errorMessage)            
