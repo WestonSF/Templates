@@ -2,10 +2,10 @@
 # Name:       #
 # Purpose:    #         
 # Author:     Shaun Weston (shaun_weston@eagle.co.nz)
-# Date Created:    01/01/2015
-# Last Updated:    01/01/2015
+# Date Created:    01/01/2016
+# Last Updated:    01/01/2016
 # Copyright:   (c) Eagle Technology
-# ArcGIS Version:   ArcGIS for Desktop 10.1+ or ArcGIS Pro 1.1+
+# ArcGIS Version:   ArcGIS for Desktop 10.3+ or ArcGIS Pro 1.1+ (Need to be signed into a portal site)
 # Python Version:   2.7 or 3.4
 #--------------------------------
 
@@ -14,24 +14,38 @@ import os
 import sys
 import logging
 import smtplib
+# Python version check
+if sys.version_info[0] > 3:
+    # Python 3.x
+    import urllib.request as urllib2
+else:
+    # Python 2.x
+    import urllib2  
 import arcpy
 
-# Enable data to be overwritten
-arcpy.env.overwriteOutput = True
-
 # Set global variables
-enableLogging = "false" # Use logger.info("Example..."), logger.warning("Example..."), logger.error("Example...")
-logFile = "" # os.path.join(os.path.dirname(__file__), "Example.log")
+# Logging
+enableLogging = "false" # Use within code - logger.info("Example..."), logger.warning("Example..."), logger.error("Example...")
+logFile = "" # e.g. os.path.join(os.path.dirname(__file__), "Example.log")
+# Email logging
 sendErrorEmail = "false"
+emailServerName = "" # e.g. smtp.gmail.com
+emailServerPort = 0 # e.g. 25
 emailTo = ""
 emailUser = ""
 emailPassword = ""
 emailSubject = ""
 emailMessage = ""
+# Proxy
 enableProxy = "false"
 requestProtocol = "http" # http or https
 proxyURL = ""
+# Output
 output = None
+
+# Enable data to be overwritten
+arcpy.env.overwriteOutput = True
+
 
 # Start of main function
 def mainFunction(*argv): # Get parameters from ArcGIS Desktop tool by seperating by comma e.g. (var1 is 1st parameter,var2 is 2nd parameter,var3 is 3rd parameter)  
@@ -58,7 +72,7 @@ def mainFunction(*argv): # Get parameters from ArcGIS Desktop tool by seperating
             # Remove file handler and close log file        
             logMessage.flush()
             logMessage.close()
-            logger.handlers = []   
+            logger.handlers = []
     # If arcpy error
     except arcpy.ExecuteError:           
         # Build and show the error message
@@ -83,9 +97,21 @@ def mainFunction(*argv): # Get parameters from ArcGIS Desktop tool by seperating
         # Build and show the error message
         for i in range(len(e.args)):
             if (i == 0):
-                errorMessage = unicode(e.args[i]).encode('utf-8')
+                # Python version check
+                if sys.version_info[0] >= 3:
+                    # Python 3.x
+                    errorMessage = str(e.args[i]).encode('utf-8').decode('utf-8')
+                else:
+                    # Python 2.x
+                    errorMessage = unicode(e.args[i]).encode('utf-8')
             else:
-                errorMessage = errorMessage + " " + unicode(e.args[i]).encode('utf-8')
+                # Python version check
+                if sys.version_info[0] >= 3:
+                    # Python 3.x
+                    errorMessage = errorMessage + " " + str(e.args[i]).encode('utf-8').decode('utf-8')
+                else:
+                    # Python 2.x
+                    errorMessage = errorMessage + " " + unicode(e.args[i]).encode('utf-8')
         arcpy.AddError(errorMessage)              
         # Logging
         if (enableLogging == "true"):
@@ -126,7 +152,7 @@ def sendEmail(message):
     # Send an email
     arcpy.AddMessage("Sending email...")
     # Server and port information
-    smtpServer = smtplib.SMTP("smtp.gmail.com",587) 
+    smtpServer = smtplib.SMTP(emailServerName,emailServerPort) 
     smtpServer.ehlo()
     smtpServer.starttls() 
     smtpServer.ehlo
