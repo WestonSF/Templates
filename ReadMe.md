@@ -1,4 +1,4 @@
-#Development Templates
+# Development Templates
 
 These are a few templates that I like to use for development and for documentation.
 
@@ -29,7 +29,7 @@ Anyone and everyone is welcome to contribute.
 
 
 ## Licensing
-Copyright 2014 - Shaun Weston
+Copyright 2016 - Shaun Weston
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

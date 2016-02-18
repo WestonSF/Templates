@@ -5,23 +5,15 @@
 # Date Created:    01/01/2016
 # Last Updated:    01/01/2016
 # Copyright:   (c) Eagle Technology
-# ArcGIS Version:   ArcGIS for Desktop 10.3+ or ArcGIS Pro 1.1+ (Need to be signed into a portal site)
+# ArcGIS Version:   ArcMap 10.3+ or ArcGIS Pro 1.1+ (Need to be signed into a portal site)
 # Python Version:   2.7 or 3.4
 #--------------------------------
 
-# Import modules
+# Import main modules
 import os
 import sys
 import logging
 import smtplib
-# Python version check
-if sys.version_info[0] > 3:
-    # Python 3.x
-    import urllib.request as urllib2
-else:
-    # Python 2.x
-    import urllib2  
-import arcpy
 
 # Set global variables
 # Logging
@@ -42,9 +34,22 @@ requestProtocol = "http" # http or https
 proxyURL = ""
 # Output
 output = None
+# ArcGIS desktop installed
+arcgisDesktop = "true"
 
-# Enable data to be overwritten
-arcpy.env.overwriteOutput = True
+# If ArcGIS desktop installed
+if (arcgisDesktop == "true"):
+    # Import extra modules
+    import arcpy
+    # Enable data to be overwritten
+    arcpy.env.overwriteOutput = True
+# Python version check
+if sys.version_info[0] >= 3:
+    # Python 3.x
+    import urllib.request as urllib2
+else:
+    # Python 2.x
+    import urllib2  
 
 
 # Start of main function
@@ -53,13 +58,17 @@ def mainFunction(*argv): # Get parameters from ArcGIS Desktop tool by seperating
         # --------------------------------------- Start of code --------------------------------------- #
         
 
-        # --------------------------------------- End of code --------------------------------------- #  
-            
+        # --------------------------------------- End of code --------------------------------------- #
         # If called from gp tool return the arcpy parameter   
         if __name__ == '__main__':
             # Return the output if there is any
             if output:
-                arcpy.SetParameterAsText(1, output)
+                # If ArcGIS desktop installed
+                if (arcgisDesktop == "true"):
+                    arcpy.SetParameterAsText(1, output)
+                # ArcGIS desktop not installed
+                else:
+                    return output 
         # Otherwise return the result          
         else:
             # Return the output if there is any
@@ -77,7 +86,7 @@ def mainFunction(*argv): # Get parameters from ArcGIS Desktop tool by seperating
     except arcpy.ExecuteError:           
         # Build and show the error message
         errorMessage = arcpy.GetMessages(2)   
-        arcpy.AddError(errorMessage)           
+        printMessage(errorMessage,"error")           
         # Logging
         if (enableLogging == "true"):
             # Log error          
@@ -93,26 +102,31 @@ def mainFunction(*argv): # Get parameters from ArcGIS Desktop tool by seperating
             sendEmail(errorMessage)
     # If python error
     except Exception as e:
-        errorMessage = ""
+        errorMessage = ""         
         # Build and show the error message
-        for i in range(len(e.args)):
-            if (i == 0):
-                # Python version check
-                if sys.version_info[0] >= 3:
-                    # Python 3.x
-                    errorMessage = str(e.args[i]).encode('utf-8').decode('utf-8')
+        # If many arguments
+        if (e.args):
+            for i in range(len(e.args)):        
+                if (i == 0):
+                    # Python version check
+                    if sys.version_info[0] >= 3:
+                        # Python 3.x
+                        errorMessage = str(e.args[i]).encode('utf-8').decode('utf-8')
+                    else:
+                        # Python 2.x
+                        errorMessage = unicode(e.args[i]).encode('utf-8')
                 else:
-                    # Python 2.x
-                    errorMessage = unicode(e.args[i]).encode('utf-8')
-            else:
-                # Python version check
-                if sys.version_info[0] >= 3:
-                    # Python 3.x
-                    errorMessage = errorMessage + " " + str(e.args[i]).encode('utf-8').decode('utf-8')
-                else:
-                    # Python 2.x
-                    errorMessage = errorMessage + " " + unicode(e.args[i]).encode('utf-8')
-        arcpy.AddError(errorMessage)              
+                    # Python version check
+                    if sys.version_info[0] >= 3:
+                        # Python 3.x
+                        errorMessage = errorMessage + " " + str(e.args[i]).encode('utf-8').decode('utf-8')
+                    else:
+                        # Python 2.x
+                        errorMessage = errorMessage + " " + unicode(e.args[i]).encode('utf-8')
+        # Else just one argument
+        else:
+            errorMessage = e
+        printMessage(errorMessage,"error")
         # Logging
         if (enableLogging == "true"):
             # Log error            
@@ -127,6 +141,22 @@ def mainFunction(*argv): # Get parameters from ArcGIS Desktop tool by seperating
             # Send email
             sendEmail(errorMessage)            
 # End of main function
+
+
+# Start of print message function
+def printMessage(message,type):
+    # If ArcGIS desktop installed
+    if (arcgisDesktop == "true"):
+        if (type.lower() == "warning"):
+            arcpy.AddWarning(message)
+        elif (type.lower() == "error"):
+            arcpy.AddError(message)
+        else:
+            arcpy.AddMessage(message)
+    # ArcGIS desktop not installed
+    else:
+        print(message)
+# End of print message function
 
 
 # Start of set logging function
@@ -172,8 +202,15 @@ def sendEmail(message):
 # another script
 if __name__ == '__main__':
     # Arguments are optional - If running from ArcGIS Desktop tool, parameters will be loaded into *argv
-    argv = tuple(arcpy.GetParameterAsText(i)
-        for i in range(arcpy.GetArgumentCount()))
+    # If ArcGIS desktop installed
+    if (arcgisDesktop == "true"):
+        argv = tuple(arcpy.GetParameterAsText(i)
+            for i in range(arcpy.GetArgumentCount()))
+    # ArcGIS desktop not installed
+    else:
+        argv = sys.argv
+        # Delete the first argument, which is the script
+        del argv[0] 
     # Logging
     if (enableLogging == "true"):
         # Setup logging
@@ -188,4 +225,3 @@ if __name__ == '__main__':
         # Install the proxy
         urllib2.install_opener(openURL)
     mainFunction(*argv)
-    

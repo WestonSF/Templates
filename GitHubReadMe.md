@@ -1,4 +1,4 @@
-#GitHub ReadMe Template
+# GitHub ReadMe Template
 
 ---Short description of the project---
 
@@ -47,7 +47,7 @@ Anyone and everyone is welcome to contribute.
 
 
 ## Licensing
-Copyright 2014 - Shaun Weston
+Copyright 2016 - Shaun Weston
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
