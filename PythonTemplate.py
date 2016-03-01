@@ -17,7 +17,7 @@ import smtplib
 
 # Set global variables
 # Logging
-enableLogging = "false" # Use within code - logger.info("Example..."), logger.warning("Example..."), logger.error("Example...")
+enableLogging = "false" # Use within code - logger.info("Example..."), logger.warning("Example..."), logger.error("Example...") and to print messages - printMessage("xxx","info"), printMessage("xxx","warning"), printMessage("xxx","error")
 logFile = "" # e.g. os.path.join(os.path.dirname(__file__), "Example.log")
 # Email logging
 sendErrorEmail = "false"
@@ -180,7 +180,7 @@ def setLogging(logFile):
 # Start of send email function
 def sendEmail(message):
     # Send an email
-    arcpy.AddMessage("Sending email...")
+    printMessage("Sending email...","info")
     # Server and port information
     smtpServer = smtplib.SMTP(emailServerName,emailServerPort) 
     smtpServer.ehlo()
@@ -201,7 +201,10 @@ def sendEmail(message):
 # as a geoprocessing script tool, or as a module imported in
 # another script
 if __name__ == '__main__':
-    # Arguments are optional - If running from ArcGIS Desktop tool, parameters will be loaded into *argv
+    # Test to see if ArcGIS desktop installed
+    if ((os.path.basename(sys.executable).lower() == "arcgispro.exe") or (os.path.basename(sys.executable).lower() == "arcmap.exe") or (os.path.basename(sys.executable).lower() == "arccatalog.exe")):
+        arcgisDesktop = "true"
+        
     # If ArcGIS desktop installed
     if (arcgisDesktop == "true"):
         argv = tuple(arcpy.GetParameterAsText(i)
