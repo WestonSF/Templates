@@ -1,12 +1,12 @@
 #-------------------------------------------------------------
 # Name:       #
-# Purpose:    #         
+# Purpose:    #
 # Author:     Shaun Weston (shaun_weston@eagle.co.nz)
-# Date Created:    01/01/2016
-# Last Updated:    01/01/2016
+# Date Created:    01/01/2018
+# Last Updated:    01/01/2018
 # Copyright:   (c) Eagle Technology
 # ArcGIS Version:   ArcMap 10.3+ or ArcGIS Pro 1.1+ (Need to be signed into a portal site)
-# Python Version:   2.7 or 3.4
+# Python Version:   2.7+ or 3.4+
 #--------------------------------
 
 # Import main modules
@@ -49,64 +49,64 @@ if sys.version_info[0] >= 3:
     import urllib.request as urllib2
 else:
     # Python 2.x
-    import urllib2  
+    import urllib2
 
 
 # Start of main function
-def mainFunction(*argv): # Get parameters from ArcGIS Desktop tool by seperating by comma e.g. (var1 is 1st parameter,var2 is 2nd parameter,var3 is 3rd parameter)  
+def mainFunction(*argv): # Get parameters from ArcGIS Desktop tool by seperating by comma e.g. (var1 is 1st parameter,var2 is 2nd parameter,var3 is 3rd parameter)
     try:
         # --------------------------------------- Start of code --------------------------------------- #
-        
+
 
         # --------------------------------------- End of code --------------------------------------- #
-        # If called from gp tool return the arcpy parameter   
+        # If called from gp tool return the arcpy parameter
         if __name__ == '__main__':
             # Return the output if there is any
             if output:
                 # If ArcGIS desktop installed
                 if (arcgisDesktop == "true"):
-                    arcpy.SetParameterAsText(1, output)
+                    arcpy.SetParameter(1, output)
                 # ArcGIS desktop not installed
                 else:
-                    return output 
-        # Otherwise return the result          
+                    return output
+        # Otherwise return the result
         else:
             # Return the output if there is any
             if output:
-                return output      
+                return output
         # Logging
         if (enableLogging == "true"):
             # Log end of process
             logger.info("Process ended.")
-            # Remove file handler and close log file        
+            # Remove file handler and close log file
             logMessage.flush()
             logMessage.close()
             logger.handlers = []
     # If arcpy error
-    except arcpy.ExecuteError:           
+    except arcpy.ExecuteError:
         # Build and show the error message
-        errorMessage = arcpy.GetMessages(2)   
-        printMessage(errorMessage,"error")           
+        errorMessage = arcpy.GetMessages(2)
+        printMessage(errorMessage,"error")
         # Logging
         if (enableLogging == "true"):
-            # Log error          
+            # Log error
             logger.error(errorMessage)
             # Log end of process
-            logger.info("Process ended.")            
-            # Remove file handler and close log file        
+            logger.info("Process ended.")
+            # Remove file handler and close log file
             logMessage.flush()
             logMessage.close()
-            logger.handlers = []   
+            logger.handlers = []
         if (sendErrorEmail == "true"):
             # Send email
             sendEmail(errorMessage)
     # If python error
     except Exception as e:
-        errorMessage = ""         
+        errorMessage = ""
         # Build and show the error message
         # If many arguments
         if (e.args):
-            for i in range(len(e.args)):        
+            for i in range(len(e.args)):
                 if (i == 0):
                     # Python version check
                     if sys.version_info[0] >= 3:
@@ -129,17 +129,17 @@ def mainFunction(*argv): # Get parameters from ArcGIS Desktop tool by seperating
         printMessage(errorMessage,"error")
         # Logging
         if (enableLogging == "true"):
-            # Log error            
+            # Log error
             logger.error(errorMessage)
             # Log end of process
-            logger.info("Process ended.")            
-            # Remove file handler and close log file        
+            logger.info("Process ended.")
+            # Remove file handler and close log file
             logMessage.flush()
             logMessage.close()
-            logger.handlers = []   
+            logger.handlers = []
         if (sendErrorEmail == "true"):
             # Send email
-            sendEmail(errorMessage)            
+            sendEmail(errorMessage)
 # End of main function
 
 
@@ -171,9 +171,9 @@ def setLogging(logFile):
     # Add formatter to log message handler
     logMessage.setFormatter(logFormat)
     # Add log message handler to logger
-    logger.addHandler(logMessage) 
+    logger.addHandler(logMessage)
 
-    return logger, logMessage               
+    return logger, logMessage
 # End of set logging function
 
 
@@ -182,9 +182,9 @@ def sendEmail(message):
     # Send an email
     printMessage("Sending email...","info")
     # Server and port information
-    smtpServer = smtplib.SMTP(emailServerName,emailServerPort) 
+    smtpServer = smtplib.SMTP(emailServerName,emailServerPort)
     smtpServer.ehlo()
-    smtpServer.starttls() 
+    smtpServer.starttls()
     smtpServer.ehlo
     # Login with sender email address and password
     smtpServer.login(emailUser, emailPassword)
@@ -192,19 +192,19 @@ def sendEmail(message):
     header = 'To:' + emailTo + '\n' + 'From: ' + emailUser + '\n' + 'Subject:' + emailSubject + '\n'
     body = header + '\n' + emailMessage + '\n' + '\n' + message
     # Send the email and close the connection
-    smtpServer.sendmail(emailUser, emailTo, body)    
+    smtpServer.sendmail(emailUser, emailTo, body)
 # End of send email function
 
 
 # This test allows the script to be used from the operating
-# system command prompt (stand-alone), in a Python IDE, 
+# system command prompt (stand-alone), in a Python IDE,
 # as a geoprocessing script tool, or as a module imported in
 # another script
 if __name__ == '__main__':
     # Test to see if ArcGIS desktop installed
     if ((os.path.basename(sys.executable).lower() == "arcgispro.exe") or (os.path.basename(sys.executable).lower() == "arcmap.exe") or (os.path.basename(sys.executable).lower() == "arccatalog.exe")):
         arcgisDesktop = "true"
-        
+
     # If ArcGIS desktop installed
     if (arcgisDesktop == "true"):
         argv = tuple(arcpy.GetParameterAsText(i)
@@ -213,7 +213,7 @@ if __name__ == '__main__':
     else:
         argv = sys.argv
         # Delete the first argument, which is the script
-        del argv[0] 
+        del argv[0]
     # Logging
     if (enableLogging == "true"):
         # Setup logging

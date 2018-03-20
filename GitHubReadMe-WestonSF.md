@@ -1,18 +1,26 @@
-# Development Templates
+# GitHub ReadMe Template
 
-These are a few templates that I like to use for development and GitHub documentation.
+---Short description of the project---
+
+[Demo](http://URLTODEMO)
 
 
 ## Features
-* GitHub ReadMe template
-* Python for ArcGIS template
-* Batch file template
+
+* Feature 1
+* Feature 2
+
+
+## Requirements
+
+* Notepad or your favorite HTML editor
+* Web browser with access to the Internet
 
 
 ## Installation Instructions
 
-* Fork and then clone the repo or download the .zip file. 
-* Copy and use the templates for starting development and/or documentation.
+* Fork and then clone the repository or download the .zip file. 
+* Run and try the examples.
 
 
 ## Resources
@@ -21,6 +29,15 @@ These are a few templates that I like to use for development and GitHub document
 * [GitHub](https://github.com/WestonSF)
 * [Twitter](https://twitter.com/Westonelli)
 * [ArcGIS Blog](http://blogs.esri.com/esri/arcgis)
+* [Web AppBuilder for ArcGIS (Developer Edition)](https://developers.arcgis.com/web-appbuilder)
+* [ArcGIS API for Javascript](https://developers.arcgis.com/en/javascript)
+* [Python for ArcGIS](http://resources.arcgis.com/en/communities/python)
+
+
+## Issues
+
+Find a bug or want to request a new feature?  Please let us know by submitting an issue.
+
 
 ## Contributing
 

@@ -2,9 +2,7 @@
 
 ---Short description of the project---
 
-[Demo](http://alaframboise.github.com/rockstar-repo-template/index.html)
-
-![App](https://raw.github.com/alaframboise/rockstar-repo-template/master/app.png)
+[Demo](http://URLTODEMO)
 
 
 ## Features
@@ -21,17 +19,16 @@
 
 ## Installation Instructions
 
-* Fork and then clone the repo or download the .zip file. 
+* Fork and then clone the repository or download the .zip file. 
 * Run and try the examples.
 
 
 ## Resources
 
-* [LinkedIn](http://www.linkedin.com/in/sfweston)
-* [GitHub](https://github.com/WestonSF)
-* [Twitter](https://twitter.com/Westonelli)
-* [Blog](http://westonelli.wordpress.com)
+* [GitHub](https://github.com/eaglegis)
+* [Twitter](https://twitter.com/eaglegis)
 * [ArcGIS Blog](http://blogs.esri.com/esri/arcgis)
+* [Web AppBuilder for ArcGIS (Developer Edition)](https://developers.arcgis.com/web-appbuilder)
 * [ArcGIS API for Javascript](https://developers.arcgis.com/en/javascript)
 * [Python for ArcGIS](http://resources.arcgis.com/en/communities/python)
 
@@ -47,7 +44,6 @@ Anyone and everyone is welcome to contribute.
 
 
 ## Licensing
-Copyright 2016 - Shaun Weston
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
