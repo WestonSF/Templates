@@ -1,11 +1,12 @@
 #-------------------------------------------------------------
-# Name:                 #
-# Purpose:              #
-# Author:               Shaun Weston (shaun_weston@eagle.co.nz)
-# Date Created:         01/01/2018
-# Last Updated:         01/01/2018
-# ArcGIS Version:       ArcGIS API for Python 1.4.2+ or ArcGIS Pro (ArcPy) 2.1+
-# Python Version:       3.6.5+ (Anaconda 5.2+) or 3.4+
+# Name:       #
+# Purpose:    #
+# Author:     Shaun Weston (shaun_weston@eagle.co.nz)
+# Date Created:    01/01/2018
+# Last Updated:    01/01/2018
+# Copyright:   (c) Eagle Technology
+# ArcGIS Version:   ArcMap 10.3+ or ArcGIS Pro 1.1+ (Need to be signed into a portal site)
+# Python Version:   2.7+ or 3.4+
 #--------------------------------
 
 # Import main modules
@@ -13,22 +14,11 @@ import os
 import sys
 import logging
 import smtplib
-# Import ArcGIS modules
-useArcPy = "false"
-useArcGISAPIPython = "true"
-if (useArcPy == "true"):
-    # Import arcpy module
-    import arcpy
-    # Enable data to be overwritten
-    arcpy.env.overwriteOutput = True
-if (useArcGISAPIPython == "true"):
-    # Import arcgis module
-    import arcgis
 
 # Set global variables
 # Logging
-enableLogging = "false" # Use within code to print and log messages - printMessage("xxx","info"), printMessage("xxx","warning"), printMessage("xxx","error")
-logFile = os.path.join(os.path.dirname(__file__), "") # e.g. os.path.join(os.path.dirname(__file__), "Example.log")
+enableLogging = "false" # Use within code - logger.info("Example..."), logger.warning("Example..."), logger.error("Example...") and to print messages - printMessage("xxx","info"), printMessage("xxx","warning"), printMessage("xxx","error")
+logFile = "" # e.g. os.path.join(os.path.dirname(__file__), "Example.log")
 # Email logging
 sendErrorEmail = "false"
 emailServerName = "" # e.g. smtp.gmail.com
@@ -44,20 +34,37 @@ requestProtocol = "http" # http or https
 proxyURL = ""
 # Output
 output = None
+# ArcGIS desktop installed
+arcgisDesktop = "true"
+
+# If ArcGIS desktop installed
+if (arcgisDesktop == "true"):
+    # Import extra modules
+    import arcpy
+    # Enable data to be overwritten
+    arcpy.env.overwriteOutput = True
+# Python version check
+if sys.version_info[0] >= 3:
+    # Python 3.x
+    import urllib.request as urllib2
+else:
+    # Python 2.x
+    import urllib2
 
 
 # Start of main function
-def mainFunction(): # Add parameters sent to the script here e.g. (var1 is 1st parameter,var2 is 2nd parameter,var3 is 3rd parameter)
+def mainFunction(*argv): # Get parameters from ArcGIS Desktop tool by seperating by comma e.g. (var1 is 1st parameter,var2 is 2nd parameter,var3 is 3rd parameter)
     try:
         # --------------------------------------- Start of code --------------------------------------- #
 
+
         # --------------------------------------- End of code --------------------------------------- #
-        # If called from ArcGIS GP tool
+        # If called from gp tool return the arcpy parameter
         if __name__ == '__main__':
             # Return the output if there is any
             if output:
-                # If using ArcPy
-                if (useArcPy == "true"):
+                # If ArcGIS desktop installed
+                if (arcgisDesktop == "true"):
                     arcpy.SetParameter(1, output)
                 # ArcGIS desktop not installed
                 else:
@@ -101,9 +108,21 @@ def mainFunction(): # Add parameters sent to the script here e.g. (var1 is 1st p
         if (e.args):
             for i in range(len(e.args)):
                 if (i == 0):
-                    errorMessage = str(e.args[i]).encode('utf-8').decode('utf-8')
+                    # Python version check
+                    if sys.version_info[0] >= 3:
+                        # Python 3.x
+                        errorMessage = str(e.args[i]).encode('utf-8').decode('utf-8')
+                    else:
+                        # Python 2.x
+                        errorMessage = unicode(e.args[i]).encode('utf-8')
                 else:
-                    errorMessage = errorMessage + " " + str(e.args[i]).encode('utf-8').decode('utf-8')
+                    # Python version check
+                    if sys.version_info[0] >= 3:
+                        # Python 3.x
+                        errorMessage = errorMessage + " " + str(e.args[i]).encode('utf-8').decode('utf-8')
+                    else:
+                        # Python 2.x
+                        errorMessage = errorMessage + " " + unicode(e.args[i]).encode('utf-8')
         # Else just one argument
         else:
             errorMessage = e
@@ -124,31 +143,20 @@ def mainFunction(): # Add parameters sent to the script here e.g. (var1 is 1st p
 # End of main function
 
 
-# Start of print and logging message function
+# Start of print message function
 def printMessage(message,type):
-    # If using ArcPy
-    if (useArcPy == "true"):
+    # If ArcGIS desktop installed
+    if (arcgisDesktop == "true"):
         if (type.lower() == "warning"):
             arcpy.AddWarning(message)
-            # Logging
-            if (enableLogging == "true"):
-                logger.warning(message)
         elif (type.lower() == "error"):
             arcpy.AddError(message)
-            # Logging
-            if (enableLogging == "true"):
-                logger.error(message)
         else:
             arcpy.AddMessage(message)
-            # Logging
-            if (enableLogging == "true"):
-                logger.info(message)
+    # ArcGIS desktop not installed
     else:
         print(message)
-        # Logging
-        if (enableLogging == "true"):
-            logger.info(message)
-# End of print and logging message function
+# End of print message function
 
 
 # Start of set logging function
@@ -193,10 +201,15 @@ def sendEmail(message):
 # as a geoprocessing script tool, or as a module imported in
 # another script
 if __name__ == '__main__':
-    # If using ArcPy
-    if (useArcPy == "true"):
+    # Test to see if ArcGIS desktop installed
+    if ((os.path.basename(sys.executable).lower() == "arcgispro.exe") or (os.path.basename(sys.executable).lower() == "arcmap.exe") or (os.path.basename(sys.executable).lower() == "arccatalog.exe")):
+        arcgisDesktop = "true"
+
+    # If ArcGIS desktop installed
+    if (arcgisDesktop == "true"):
         argv = tuple(arcpy.GetParameterAsText(i)
             for i in range(arcpy.GetArgumentCount()))
+    # ArcGIS desktop not installed
     else:
         argv = sys.argv
         # Delete the first argument, which is the script

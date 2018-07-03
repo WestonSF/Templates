@@ -6,6 +6,7 @@ These are a few templates that I like to use for development and GitHub document
 ## Features
 * GitHub ReadMe template
 * Python for ArcGIS template
+* ArcGIS Desktop Toolbox template
 * Batch file template
 
 
