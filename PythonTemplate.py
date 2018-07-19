@@ -13,6 +13,9 @@ import os
 import sys
 import logging
 import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import email.mime.application
 # Import ArcGIS modules
 useArcPy = "false"
 useArcGISAPIPython = "true"
@@ -29,15 +32,13 @@ if (useArcGISAPIPython == "true"):
 # Logging
 enableLogging = "false" # Use within code to print and log messages - printMessage("xxx","info"), printMessage("xxx","warning"), printMessage("xxx","error")
 logFile = os.path.join(os.path.dirname(__file__), "") # e.g. os.path.join(os.path.dirname(__file__), "Example.log")
-# Email logging
+# Email Use within code to send email - sendEmail(subject,message,attachment)
 sendErrorEmail = "false"
 emailServerName = "" # e.g. smtp.gmail.com
-emailServerPort = 0 # e.g. 25
-emailTo = ""
-emailUser = ""
+emailServerPort = None # e.g. 25
+emailTo = "" # Address of email sent to
+emailUser = "" # Address of email sent from
 emailPassword = ""
-emailSubject = ""
-emailMessage = ""
 # Proxy
 enableProxy = "false"
 requestProtocol = "http" # http or https
@@ -75,26 +76,11 @@ def mainFunction(): # Add parameters sent to the script here e.g. (var1 is 1st p
             logMessage.flush()
             logMessage.close()
             logger.handlers = []
-    # If arcpy error
-    except arcpy.ExecuteError:
-        # Build and show the error message
-        errorMessage = arcpy.GetMessages(2)
-        printMessage(errorMessage,"error")
-        # Logging
-        if (enableLogging == "true"):
-            # Log error
-            logger.error(errorMessage)
-            # Log end of process
-            logger.info("Process ended.")
-            # Remove file handler and close log file
-            logMessage.flush()
-            logMessage.close()
-            logger.handlers = []
-        if (sendErrorEmail == "true"):
-            # Send email
-            sendEmail(errorMessage)
-    # If python error
+    # If error
     except Exception as e:
+        # Build and show the error message
+        # errorMessage = arcpy.GetMessages(2)
+
         errorMessage = ""
         # Build and show the error message
         # If many arguments
@@ -120,7 +106,7 @@ def mainFunction(): # Add parameters sent to the script here e.g. (var1 is 1st p
             logger.handlers = []
         if (sendErrorEmail == "true"):
             # Send email
-            sendEmail(errorMessage)
+            sendEmail("Python Script Error",errorMessage,None)
 # End of main function
 
 
@@ -170,7 +156,7 @@ def setLogging(logFile):
 
 
 # Start of send email function
-def sendEmail(message):
+def sendEmail(message,attachment):
     # Send an email
     printMessage("Sending email...","info")
     # Server and port information
@@ -178,13 +164,27 @@ def sendEmail(message):
     smtpServer.ehlo()
     smtpServer.starttls()
     smtpServer.ehlo
+    # Setup content for email (In html format)
+    emailMessage = MIMEMultipart('alternative')
+    emailMessage['Subject'] = emailSubject
+    emailMessage['From'] = emailUser
+    emailMessage['To'] = emailTo
+    emailText = MIMEText(message, 'html')
+    emailMessage.attach(emailText)
+
+    # If there is a file attachment
+    if (attachment):
+        fp = open(attachment,'rb')
+        fileAttachment = email.mime.application.MIMEApplication(fp.read(),_subtype="pdf")
+        fp.close()
+        fileAttachment.add_header('Content-Disposition','attachment',filename=os.path.basename(attachment))
+        emailMessage.attach(fileAttachment)
+
     # Login with sender email address and password
-    smtpServer.login(emailUser, emailPassword)
-    # Email content
-    header = 'To:' + emailTo + '\n' + 'From: ' + emailUser + '\n' + 'Subject:' + emailSubject + '\n'
-    body = header + '\n' + emailMessage + '\n' + '\n' + message
+    if (emailUser and emailPassword):
+        smtpServer.login(emailUser, emailPassword)
     # Send the email and close the connection
-    smtpServer.sendmail(emailUser, emailTo, body)
+    smtpServer.sendmail(emailUser, emailTo, emailMessage.as_string())
 # End of send email function
 
 
