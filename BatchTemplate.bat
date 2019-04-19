@@ -1,4 +1,4 @@
 REM ----- Name of Process -----
-C:\Python27\arcgis10.6\Python "C:\Development\Development Templates\PythonTemplateExample.py" ^
+"C:\Program Files\ArcGIS\Pro\bin\Python\envs\arcgispro-py3\python" "C:\Development\Development Templates\PythonTemplate.py" ^
  "Parameter 1" ^
  "Parameter 2"

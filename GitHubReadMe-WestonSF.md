@@ -31,7 +31,7 @@
 * [ArcGIS Blog](http://blogs.esri.com/esri/arcgis)
 * [Web AppBuilder for ArcGIS (Developer Edition)](https://developers.arcgis.com/web-appbuilder)
 * [ArcGIS API for Javascript](https://developers.arcgis.com/en/javascript)
-* [Python for ArcGIS](http://resources.arcgis.com/en/communities/python)
+* [Python for ArcGIS](https://pro.arcgis.com/en/pro-app/arcpy)
 
 
 ## Issues
