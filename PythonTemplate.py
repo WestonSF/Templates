@@ -13,6 +13,8 @@ import os
 import sys
 import logging
 import smtplib
+import time
+import shutil
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import email.mime.application
@@ -36,6 +38,7 @@ enableLogging = "true" # Use within code to print and log messages - printMessag
 logFile = os.path.join(os.path.dirname(__file__), "PythonTemplate.log") # e.g. os.path.join(os.path.dirname(__file__), "Example.log")
 enableLogTable = "false" # Use to log the completion of the process to a geodatabase table
 logTable = "" # e.g. "C:\Temp\Scratch.gdb\Logging"
+archiveLogFiles = "true"
 # Email Use within code to send email - sendEmail(subject,message,attachment)
 sendErrorEmail = "false"
 emailSubject = "" # Subject in email
@@ -77,7 +80,7 @@ def mainFunction(parameter1,parameter2): # Add parameters sent to the script her
         if (enableLogTable == "true"):
             # Log end message to table
             currentDate = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-            logToTable({"Date": currentDate,"Process": os.path.basename(__file__).replace(".py",""),"Status": "Success","Organisation": None,"Message": "Process ended...","RecordCount":None})        
+            logToTable({"Date": currentDate,"Process": os.path.basename(__file__).replace(".py",""),"Status": "Success","Organisation": None,"DataName": None,"Message": "Process ended...","RecordCount":None})        
     # If error
     except Exception as e:
         errorMessage = ""
@@ -100,7 +103,7 @@ def mainFunction(parameter1,parameter2): # Add parameters sent to the script her
         if (enableLogTable == "true"):
             # Log end message to table
             currentDate = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-            logToTable({"Date": currentDate,"Process": os.path.basename(__file__).replace(".py",""),"Status": "Fail","Organisation": None,"Message": errorMessage,"RecordCount":None})            
+            logToTable({"Date": currentDate,"Process": os.path.basename(__file__).replace(".py",""),"Status": "Fail","Organisation": None,"DataName": None,"Message": errorMessage,"RecordCount":None})            
 # End of main function
 
 
@@ -161,7 +164,7 @@ def logToTable(logData):
         if (useArcPy == "true"):
             # If table exists
             if arcpy.Exists(logTable):
-                requiredFieldNames = ["Date","Process","Status","Organisation","Message","RecordCount"]
+                requiredFieldNames = ["Date","Process","Status","Organisation","DataName","Message","RecordCount"]
                 fieldNames = [f.name.lower() for f in arcpy.ListFields(logTable)]
                 requiredFieldsNotPresentCount = 0
                 for requiredFieldName in requiredFieldNames:
@@ -188,22 +191,27 @@ def logToTable(logData):
                         # If not blank
                         if (logData["Organisation"]):
                             value4 = logData["Organisation"][:50] # Strip to be below 50 characters
-                    value5 = None
+                    value5 = None        
+                    if "DataName" in logData:
+                        # If not blank
+                        if (logData["DataName"]):
+                            value5 = logData["DataName"][:50] # Strip to be below 50 characters
+                    value6 = None
                     if "Message" in logData:
                         # If not blank
                         if (logData["Message"]):
-                            value5 = logData["Message"][:1000] # Strip to be below 1000 characters
-                    value6 = None 
+                            value6 = logData["Message"][:1000] # Strip to be below 1000 characters
+                    value7 = None 
                     if "RecordCount" in logData:
                         # If not blank
                         if (str(logData["RecordCount"])):
                             # If a number
                             if (str(logData["RecordCount"]).isdigit()):
-                                value6 = logData["RecordCount"]
+                                value7 = logData["RecordCount"]
                         
                     # Write to table
                     cursor = arcpy.da.InsertCursor(logTable, requiredFieldNames)
-                    cursor.insertRow([value1,value2,value3,value4,value5,value6])
+                    cursor.insertRow([value1,value2,value3,value4,value5,value6,value7])
                     del cursor
             else:
                 printMessage("Log table does not exist - " + logTable + "...","error")
@@ -242,7 +250,7 @@ def sendEmail(message,attachment):
     emailMessage['Subject'] = emailSubject
     emailMessage['From'] = emailUser
     emailMessage['To'] = ", ".join(emailTo)
-    emailText = MIMEText(message, 'html')
+    emailText = MIMEText(str(message), 'html')
     emailMessage.attach(emailText)
 
     # If there is a file attachment
@@ -277,6 +285,14 @@ if __name__ == '__main__':
         del argv[0]
     # Logging
     if (enableLogging == "true"):
+        # Archive log file
+        if (archiveLogFiles == "true"):
+            # If file exists
+            if (os.path.isfile(logFile)):
+                # If file is larger than 10MB
+                if ((os.path.getsize(logFile) / 1048576) > 10):
+                    # Archive file
+                    shutil.move(logFile, os.path.basename(os.path.splitext(logFile)[0]) + "-" + time.strftime("%d%m%Y") + ".log")         
         # Setup logging
         logger, logMessage = setLogging(logFile)
     # Log start of process
