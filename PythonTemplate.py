@@ -79,7 +79,7 @@ def mainFunction(parameter1,parameter2): # Add parameters sent to the script her
         printMessage("Process ended...","info")
         if (enableLogTable == "true"):
             # Log end message to table
-            currentDate = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+            currentDate = datetime.datetime.utcnow().strftime("%d/%m/%Y %H:%M:%S")
             logToTable({"Date": currentDate,"Process": os.path.basename(__file__).replace(".py",""),"Status": "Success","Organisation": None,"DataName": None,"Message": "Process ended...","RecordCount":None})        
     # If error
     except Exception as e:
@@ -102,7 +102,7 @@ def mainFunction(parameter1,parameter2): # Add parameters sent to the script her
             sendEmail(errorMessage,None)
         if (enableLogTable == "true"):
             # Log end message to table
-            currentDate = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+            currentDate = datetime.datetime.utcnow().strftime("%d/%m/%Y %H:%M:%S")
             logToTable({"Date": currentDate,"Process": os.path.basename(__file__).replace(".py",""),"Status": "Fail","Organisation": None,"DataName": None,"Message": errorMessage,"RecordCount":None})            
 # End of main function
 
