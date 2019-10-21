@@ -230,7 +230,7 @@ def logToTable(logData):
                     errorMessage = errorMessage + " " + str(e.args[i]).encode('utf-8').decode('utf-8')
         # Else just one argument
         else:
-            errorMessage = e
+            errorMessage = str(e)
         printMessage("Log to table error...","error") 
         printMessage(errorMessage,"error")        
 # End of log to table function
