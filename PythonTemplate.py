@@ -1,9 +1,9 @@
 #-------------------------------------------------------------
 # Name:                 #
 # Purpose:              #
-# Author:               Shaun Weston (shaun_weston@eagle.co.nz)
-# Date Created:         01/01/2019
-# Last Updated:         01/01/2019
+# Author:               Shaun Weston (sweston@doc.govt.nz)
+# Date Created:         01/01/2020
+# Last Updated:         01/01/2020
 # ArcGIS Version:       ArcGIS API for Python 1.4.2+ or ArcGIS Pro (ArcPy) 2.1+
 # Python Version:       3.6.5+ (Anaconda Distribution)
 #--------------------------------
@@ -109,30 +109,25 @@ def mainFunction(parameter1,parameter2): # Add parameters sent to the script her
 
 # Start of print and logging message function
 def printMessage(message,type):
+    print(message)    
     if (type.lower() == "warning"):
-        # If using ArcPy
-        if (useArcPy == "true"):
+        # If using ArcPy and script not executed from "python.exe", otherwise get two print messages
+        if (("python.exe" not in sys.executable.split("\\")[-1].lower()) and (useArcPy.lower() == "true")):
             arcpy.AddWarning(message)
-        else:
-            print(message)
         # Logging
         if (enableLogging == "true"):
             logger.warning(message)     
     elif (type.lower() == "error"):
-        # If using ArcPy
-        if (useArcPy == "true"):
+        # If using ArcPy and script not executed from "python.exe", otherwise get two print messages
+        if (("python.exe" not in sys.executable.split("\\")[-1].lower()) and (useArcPy.lower()  == "true")):
             arcpy.AddError(message)
-        else:
-            print(message)
         # Logging
         if (enableLogging == "true"):
             logger.error(message)   
     else:
-        # If using ArcPy
-        if (useArcPy == "true"):            
+        # If using ArcPy and script not executed from "python.exe", otherwise get two print messages
+        if (("python.exe" not in sys.executable.split("\\")[-1].lower()) and (useArcPy.lower()  == "true")):           
             arcpy.AddMessage(message)
-        else:
-            print(message)
         # Logging
         if (enableLogging == "true"):
             logger.info(message)                
