@@ -12,7 +12,7 @@ class mainClass(object):
         
     # Called for each feature that comes into the input
     def input(self,feature):
-        pass
+        self.pyoutput(feature)
     
     # Called once, after all features are processed    
     def close(self):
